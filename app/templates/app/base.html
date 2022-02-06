@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/app.js' %}"></script>
+    <title>予約サイト</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a href="/" class="navbar-brand">予約サイト</a>
+            <ul class="navbar-nav ml-auto" style="font-size: 13px;">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'account_logout' %}" class="nav-link">ログアウト</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'account_login' %}" class="nav-link">ログイン</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav> 
+
+    
+    <main>
+        <div class="sc-size">
+            <div class="container">
+                
+                    <!--入れ違いで予約が入った場合に実行-->
+                    {% for message in messages %}
+                    <div style="font-size: 14px;" class="alert alert-danger">
+                        <p> {{ message }}</p>
+                    </div>    
+                    {% endfor %}
+                
+                    {% block content %}
+                    {% endblock %}
+            </div>
+        </div>
+    </main>
+
+    
+
+    <fotter class="py-2 bg-dark" style="font-size: 13px;">
+        <p class="m-0 text-center text-white">Copyright &copy; ina tai</p>
+    </fotter>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+
+</html>

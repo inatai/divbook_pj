@@ -1,0 +1,316 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f1f1f1;
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.card-profile {
+    width: 700px;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 540px) {
+    .sc-size {
+        font-size: 12px;
+        width: 99%;
+        margin:5px auto;
+        background-color: rgb(250, 250, 250);
+        border: 1px solid; 
+        border-color: #9c9c9c;
+        border-radius:2px 2px 2px 2px;
+    }
+    .eveadd-body {
+        padding: 1rem;
+    }
+    .eveadd-auth {
+        width: 100%;
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .event-frame {
+        border: 1px solid;
+        border-color: #9c9c9c;
+        border-radius:2px 2px 2px 2px;
+    }
+    
+    .event-body {
+        background-color: white;
+    }
+    
+    .evecal{
+        width: 100%;
+        height: 400px;
+    }
+    .evecalray th{
+        width: 30%;
+    }
+    
+    /* //// */
+    .event-profile {
+        
+        width: 95%;
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+    }
+    .event_table {
+        width: 100%;
+        border: 1px solid #d1d6d1;
+        border-radius: 8px;
+        border-collapse: separate;
+        overflow: hidden;
+    }
+    .event_table .header {
+        width: 30%;
+        padding:  8px 12px;
+        text-align: left;
+        background: #F1F5FA;
+    }
+    
+    .event_table .data {
+        padding: 8px 12px;
+    }
+
+    .card-body {
+        padding: 0.5rem;
+    }
+    
+}
+
+
+@media (min-width: 541px) {
+    .sc-size {
+        font-size: 12px;
+        width: 700px;
+        margin:1em auto;
+        background-color: rgb(250, 250, 250);
+        border: 1px solid;
+        border-color: #9c9c9c;
+        border-radius:2px 2px 2px 2px;
+    }
+
+    
+    .eveadd-body {
+        padding: 2rem;
+    }
+    
+    .eveadd-auth {
+        width: 540px;
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .event-body {
+        background-color: white;
+        border-radius:10px 10px 10px 10px;
+    }
+    
+    .event-frame {
+        padding: 0.2em;
+    }
+    .evecal{
+        width: 540px;
+        height: 400px;
+    }
+    
+    .evecalray th{
+        width: 150px;
+    }
+    
+    .event-profile {
+        width: 600px;
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+    }
+    .event_table {
+        width: 100%;
+        border: 1px solid #d1d6d1;
+        border-radius: 8px;
+        border-collapse: separate;
+        overflow: hidden;
+    }
+    .event_table .header {
+        width: 130px;
+        padding:  16px 24px;
+        text-align: left;
+        background: #F1F5FA;
+    }
+    
+    .event_table .data {
+        padding: 16px 24px;
+    }
+    
+    .card-body {
+        padding: 2rem;
+    }
+    
+} 
+
+
+.button {
+    width: 150px;
+}
+
+.btn { 
+    font-size: 80%;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 0.5em 0.5em;
+}
+
+.profile_table {
+    width: 100%;
+    border: 1px solid #d1d6d1;
+    border-radius: 8px;
+    border-collapse: separate;
+    overflow: hidden;
+}
+
+.profile_table .header {
+    width: 200px;
+    padding:  16px 24px;
+    text-align: left;
+    background: #F1F5FA;
+}
+
+.profile_table .data {
+    padding: 16px 24px;
+}
+
+.form_wrap {
+    display: grid;
+    gap: 16px;
+}
+
+.form_wrap-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.card-auth {
+    width: 400px;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.form-auth {
+    width: 100%;
+}
+
+.form-label-group {
+    margin-bottom: 1rem;
+}
+
+.form-label-group input {
+    border-radius: 2rem;
+}
+
+.itemlist img {
+    height: 150px;
+    object-fit: contain;
+}
+
+.stafflist img {
+    height: 250px;
+    object-fit: contain;
+}
+
+.main_schedule{
+    margin: 0; /* 要素の外側の余白を0に定義 */
+    padding: 0; /* 要素の内側の余白を0に定義 */
+}
+
+.left-column {
+
+    float: left;
+  
+    width: 50%; /* 要素の幅を50%に定義 */
+    background-color: rgb(255, 255, 255); /* 視覚化のための背景色 */
+  
+}
+  
+.right-column {
+  
+    float: right;
+  
+    width: 50%; /* 要素の幅を50%に定義 */
+  
+    background-color: rgb(255, 226, 226); /* 視覚化のための背景色 */
+  
+}
+
+.alert-danger {
+    position:relative;
+    top:10px;
+}
+
+.stretched-link::after{
+    position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;pointer-events:auto;content:"";background-color:rgba(0,0,0,0)
+}
+
+p.indent-1 {
+	padding-left: 1em;
+    padding-right: 0.5em;
+}
+
+.Eve {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+  }
+  
+.Eve iframe {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+ul{
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+  
+ul a {
+    display: block;
+}
+
+.hako{
+    font-size: 10px;
+    height: 25px;
+    border: 1px solid;
+    border-color: #9c9c9c;
+    border-radius: 2px 2px 2px 2px;
+}
+
+p.indent-1-e {
+	padding-left:1em;
+	text-indent:-1em;
+}

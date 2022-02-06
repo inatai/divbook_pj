@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <br>
+    <a href="{% url 'app:calendar' item.pk %}"> << カレンダーページへ戻る</a>
+    <div class="card eveadd-auth my-5 mx-auto">
+        <div class="eveadd-body">
+            
+            <h5 class="card-title text-center">{{ item.name }} 予約キャンセル</h5>
+            <div style="font-size: 16px;">
+                予約者名 : <p style="font-weight: bold; display: inline;">{{ schedule.name }}</p>
+            </div>
+
+            {% if flag %}
+                <p style="font-size: 16px;">{{ view.kwargs.year }}年{{ view.kwargs.month }}月{{ view.kwargs.day }}日 {{ view.kwargs.hour }}時から</p>
+                <form action = "{% url 'app:myschedule_del' schedule.pk %}" method="POST" class="form-auth">
+                    {% csrf_token %}
+                    <div class="form-label-group form_wrap form_wrap-2">
+                        <input type="number" class='form-control' min="1" max = "72" value="1" name="number" placeholder='時間'><h6><br>時間分をキャンセル</h6> 
+                    </div>
+                    <div class="form-label-group form_wrap">
+                        <table>
+                            <tr>
+                                <td><h6>暗証番号:</h6></td>
+                                <td><input type="text" id="pas" name="pw" maxlength="4" class='form-control' oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="暗証番号(半角数字4桁)"></td>
+                            </tr>
+                        </table>                  
+                        
+                        
+                    </div>
+                    <br>
+                    <div class="button mx-auto">
+                        <button class="btn btn-lg btn btn-danger mx-auto" type="submit">これでキャンセルする</button>
+                    </div>
+                </form>
+            {% else %}
+                <p style="font-size: 16px;"> 暗証番号を入力していないため、予約のキャンセルはできません。 <br>
+                    キャンセルしたい場合はサイト管理者に連絡してください。
+                </p>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    
+{% endblock %}

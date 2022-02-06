@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+    <h4>{{ item.name }} 受付詳細ページ</h4>
+    <p>{{ view.kwargs.year }}年{{ view.kwargs.month }}月{{ view.kwargs.day }}日の予約一覧</p>
+    <a href="{% url 'app:my_page_calendar' item.pk %}">スタッフ用カレンダーページへ戻る</a>
+
+    <div class="button mx-auto">
+        <table style= "border-collapse: separate; border-spacing: 8px 0px;">
+            <tr>
+                <td >
+                    <form action="{% url 'app:my_page_holiday_add_day' item.pk view.kwargs.year view.kwargs.month view.kwargs.day %}"
+                            method="POST" onSubmit="return disp_hol()">
+                        {% csrf_token %}
+                        <button  class="btn btn-warning" type="submit">予約不可にする(1日)</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'app:delete_day' item.pk view.kwargs.year view.kwargs.month view.kwargs.day%}" onSubmit="return disp_del()">
+                        {% csrf_token %}
+                        <button class="btn btn-warning" type="submit">削除(1日)</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+    <div class="main_schedule">           
+            <table class="table table-bordered table-sm text-center bg-light">
+            {% for hour, schedules in calendar.items %}
+                <tr style="font-size:12px">
+                    <td>
+                        {{ hour }}:00
+                    </td>
+                    <td>
+                        {% if schedules %}
+                            {% for s in schedules %}
+                                {{ s.name }}
+                            {% endfor %}
+                        {% else %}
+                            <form action="{% url 'app:my_page_holiday_add_hour' item.pk view.kwargs.year view.kwargs.month view.kwargs.day hour %}"
+                                method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-Info" type="submit">予約不可(1時間)</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>        
+    </div>
+    
+    
+{% endblock %}

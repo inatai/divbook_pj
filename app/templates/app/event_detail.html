@@ -1,0 +1,114 @@
+{% extends 'app/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div style="text-align: left;">
+    <a href="{% url 'app:item' %}" class="btn btn-default"> << カレンダーへ戻る</a>
+</div>
+<div class="card eveadd-auth my-5 mx-auto">
+    <div class="eveadd-body">
+        <h5 class="card-title text-center font-weight-bold">{{ event.name }}</h5>
+            <table class="event_table mb-4">
+                <tbody>
+                        <th class="header">予定日</th>
+                        <td class="data">{{ event.date }}</td>
+                    </tr>
+                    <tr>
+                        <th class="header">備考</th>
+                        <td class="data">{{ event.description|linebreaksbr }}</td>
+                    </tr>
+                    <tr>
+                        <th class="header">予約開始日</th>
+                        <td class="data">{{ book_start }}　0:00</td>
+                    </tr>
+                    <tr>
+                        <th class="header">予約締め切り日</th>
+                        <td class="data">{{ book_end }}　0:00</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            {% if book_start <= today and today < book_end %}
+                <form method="POST" action = "{% url 'app:participant_add' event.pk %}" class="form-auth" enctype="multipart/form-data" style="display: inline">
+                    {% csrf_token %}
+                    <table style= "border-collapse: separate; border-spacing: 8px 0px;">
+                        <tr>
+                            <td>
+                                <h6>名前 : </h6>
+                            </td>
+                            <td>
+                                <div class="form-label-group">
+                                    <div class="form_wrap">
+                                        <input id="name" type="text" class='form-control' name="name" placeholder='名前'>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h6>暗証番号 : </h6>
+                            </td>
+                            <td>
+                                <div class="form-label-group">
+                                    <div class="form_wrap">
+                                        <input type="text" id="pas" name="pw" class='form-control' maxlength="4" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="4桁以下の暗証番号">
+                                                
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-label-group">
+                        <div class="button mx-auto" style="display: inline">
+                            <button class="btn btn-primary"  type="submit">参加予約する</button>
+                        </div>
+                    </div>
+                    <p class="indent-1-e">※暗証番号は4桁以下で、予約キャンセル時に必要になります。<br>必須ではありませんが、未入力の場合自分での予約キャンセルができなくなります。</p>
+
+                    
+                </form>
+            {% elif book_start > today %}
+                <p>まだ予約できません</p>
+            {% else %}
+                <p>予約を締め切りました</p>
+            {% endif %}
+            
+            <details>
+                <summary style="color: rgb(96, 96, 248);">参加者一覧</summary>
+                {% if participants %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm text-center bg-light">
+                        <tr><th style="width: 20%;">予約順</th><th>参加者名</th></tr>
+                        {% for n , man in participants.items %}
+                            <tr>
+                                <td>
+                                    {{ n }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'app:participant_detail' man.pk %}">{{ man }}</a>
+
+                                    {% if user.is_authenticated %}
+                                        <form method="POST" style="display: inline" onSubmit="return disp_del()" action="{% url 'app:participant_del' event.pk man %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger" type="submit" >削除</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}    
+                    </table>
+                </div>
+                {% else %}
+                    <p>参加者はいません</p>
+                {% endif %}
+            </details>
+    </div>
+</div>
+{% if user.is_authenticated %}
+<form action="{% url 'app:event_del' event.pk %}" method="POST" onSubmit="return disp_item_del()">
+    {% csrf_token %}
+    <button class="btn btn-warning" type="submit">イベントを消去する</button>
+</form>
+<br>
+{% endif %}
+{% endblock %}

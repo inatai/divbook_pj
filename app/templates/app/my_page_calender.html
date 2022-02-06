@@ -1,0 +1,65 @@
+{% extends 'app/base.html' %}
+<!--mypage_cal-->
+
+{% block content %}
+
+    <h4>スタッフ {{ item.name }}  受付カレンダー</h4>
+    <p>{{ start_day }} - {{ end_day }}</p>
+    <a href="{% url 'app:calendar' item.pk %}">閲覧用カレンダーページへ</a>
+    <br><a href="{% url 'app:rest' item.pk %}">予約不可 一括設定へ</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-sm text-center bg-light">
+                <tr>
+                    <td><a href="{% url 'app:my_page_calendar' item.pk before.year before.month before.day %}" class="btn btn-warning">前週</a></th>
+                    {% for day in days %}
+                        {% if day in public_holidays %}
+                            <th style="background-color: yellow">{{ day | date:"d(D)" }}
+                        {% elif day.weekday == 5 %}
+                            <th style="color: blue;">{{ day | date:"d(D)" }}
+                        {% elif day.weekday == 6 %}
+                            <th style="color: red;">{{ day | date:"d(D)" }}
+                        {% else %}
+                            <th>{{ day | date:"d(D)" }}
+                        {% endif %}
+
+                        <br><a href="{% url 'app:my_page_day_detail' item.pk day.year day.month day.day %}">詳細</a>
+                    {% endfor %}
+                    <td><a href="{% url 'app:my_page_calendar' item.pk next.year next.month next.day %}" class="btn btn-warning">次週</a></th>
+                </tr>
+
+            <tbody>
+                {% for hour, schedules in calendar.items %}
+                    <tr style="font-size:12px">
+                        <td scope='row'>{{ hour }}:00</td>
+                        {% for dt, book in schedules.items %}
+                            <td>
+                                {% if book %}
+
+                                    {% for s in book %}
+                                    <p class="font-weight-bold text-success" style="display:inline;">{{ s.name }}:</p>
+                                    <form method="POST" style="display: inline" action="{% url 'app:delete_hour' item.pk dt.year dt.month dt.day hour%}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger" type="submit">削除</button>
+                                    </form>
+                                    {% endfor %}
+                                {% else %}
+                                    <i class="far fa-circle text-info"></i>
+                                {% endif %}
+                            </td>
+
+                        {% endfor %}
+                        <td>
+                            {{ hour }}:00
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+
+    <form action="{% url 'app:item_del' item.pk %}" method="POST" onSubmit="return disp_item_del()">
+        {% csrf_token %}
+        <button class="btn btn-warning" type="submit">受付を消去する</button>
+    </form>
+    <br>
+{% endblock %}

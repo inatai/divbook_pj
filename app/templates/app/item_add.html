@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="card eveadd-auth my-5 mx-auto">
+    <div class="eveadd-body">
+        <h5 class="card-title text-center">{{ item.name }}受付追加フォーム</h5>
+        <form method="post" class="form-auth" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-label-group form_wrap form_wrap-2">
+                {% render_field form.name class='form-control' placeholder='受付表示名' %}
+            </div>
+            <div class="form-label-group">
+                {% render_field form.description class='form-control' placeholder='備考' %}
+            </div>
+            <div class="button mx-auto">
+                <button class="btn btn-lg btn-primary btn-block mx-auto" type="submit">受付を追加</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

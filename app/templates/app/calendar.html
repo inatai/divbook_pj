@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <br>
+    <h4>{{ item.name }}  受付カレンダー</h4>
+    <p>{{ start_day }} - {{ end_day }}</p>
+    <a href="{% url 'app:my_page_calendar' item.pk %}">スタッフ用カレンダーページへ</a>
+
+    <div class="table-responsive" >
+        <table class="table table-bordered table-striped table-sm text-center bg-light" >
+                <tr>
+                    <td><a href="{% url 'app:calendar' item.pk before.year before.month before.day %}" class="btn btn-warning">前週</a>
+                    {% for day in days %}
+                        {% if day in public_holidays %}
+                            <th style="background-color: yellow">{{ day | date:"d(D)" }}
+                        {% elif day.weekday == 5 %}
+                            <th style="color: blue;">{{ day | date:"d(D)" }}
+                        {% elif day.weekday == 6 %}
+                            <th style="color: red;">{{ day | date:"d(D)" }}
+                        {% else %}
+                            <th>{{ day | date:"d(D)" }}
+                        {% endif %}
+                    {% endfor %}
+                    <td><a href="{% url 'app:calendar' item.pk next.year next.month next.day %}" class="btn btn-warning">次週</a>
+                </tr>
+
+            <tbody >
+                {% for hour, schedules in calendar.items %}
+                    <tr style="font-size:10px">
+                        <td scope='row'>{{ hour }}:00</td>
+                        {% for dt, book in schedules.items %}
+                            <td style="padding: 3px 1px;">
+                                {% if dt < today %}
+                                    <i class="fa fa-minus"></i>
+                                {% elif book %}
+                                    {% for s in book %}
+                                    <div class="font-weight-bold text-success">
+                                        <a href="{% url 'app:myschedule_detail' item.pk dt.year dt.month dt.day hour %}">{{ s.name }} </a>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <a href="{% url 'app:booking' item.pk dt.year dt.month dt.day hour %}">
+                                    <i class="far fa-circle text-info"></i> </a>
+                                {% endif %}
+                            </td>
+
+                        {% endfor %}
+                        <td>
+                            {{ hour }}:00
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+{% endblock %}

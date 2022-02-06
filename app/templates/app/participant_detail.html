@@ -1,0 +1,37 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <br>
+    <a href="{% url 'app:event_detail' event.pk %}"> << {{ event.name }} 詳細ページへ戻る</a>
+    <div class="card eveadd-auth my-5 mx-auto">
+        <div class="eveadd-body">
+            
+            <h5 class="card-title text-center">{{ event.name }} 予約キャンセル</h5>
+            <p style="font-size: 16px;">日時　　 : {{ date.year }}年{{ date.month }}月{{ date.day }}日 </p>
+            <p style="font-size: 16px;">予約者名 : {{ participant.name }}</p>
+
+            {{ participant.pw }}
+            {% if flag %}
+                
+                <form action = "{% url 'app:my_participant_del' participant.pk %}" method="POST" class="form-auth">
+                    {% csrf_token %}
+                    <div class="form-label-group form_wrap form_wrap-2">                       
+                        <label for="pas"><h6>暗証番号:</h6></label>
+                        <input type="text" id="pas" name="pw" maxlength="4" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="暗証番号(半角数字4桁)">
+                    </div>
+                    <br>
+                    <div class="button mx-auto">
+                        <button class="btn btn-lg btn btn-danger mx-auto" type="submit">これでキャンセルする</button>
+                    </div>
+                </form>
+            {% else %}
+                <p style="font-size: 16px;"> 暗証番号を入力していないため、予約のキャンセルはできません。 <br>
+                    キャンセルしたい場合はサイト管理者に連絡してください。
+                </p>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    
+{% endblock %}
