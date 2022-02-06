@@ -4,7 +4,6 @@ from email.mime import base
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django.views.generic.edit import FormView
-from matplotlib.pyplot import flag
 from . import forms
 from .models import Item, Schedule, Event, Participant
 from django.utils import timezone
