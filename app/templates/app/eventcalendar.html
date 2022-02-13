@@ -18,11 +18,11 @@
  
 <body>
 	<div class="row">
-		<div class="col-2"><a href="{% url 'app:eventcalendar' before.year before.month %}" class="btn btn-warning" >先月</a></div>
+		<div class="col-2"><a href="{% url 'app:eventcalendar' before.year before.month %}" class="btn btn-warning" style="font-size: 12px;" >先月</a></div>
 		<div class="col-8" style="text-align: center;">
 			<h4>{{ month }}月</h4>
 		</div>
-		<div class="col-2"><a href="{% url 'app:eventcalendar' next.year next.month %}" class="btn btn-warning">翌月</a></div>
+		<div class="col-2"><a href="{% url 'app:eventcalendar' next.year next.month %}" class="btn btn-warning" style="font-size: 12px;">翌月</a></div>
 	</div>
 
 	<div class=" table-responsive">
