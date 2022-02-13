@@ -655,6 +655,8 @@ class EventdetailView(generic.TemplateView):
 
         context['event'] = event
         context['today'] = today
+        context['view_book_start'] = book_start - datetime.timedelta(days=1)
+        context['view_book_end'] = book_end - datetime.timedelta(days=1)
         context['book_start'] = book_start
         context['book_end'] = book_end
 
