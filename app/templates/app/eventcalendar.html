@@ -67,11 +67,11 @@
 										{% book_start e.book_start e.date as flags %}
 										{% book_end e.book_end e.date as flage %}
 										{% if flags and flage %}
-											<div class="event-frame event-body text-center" style="background-color: rgb(249, 255, 244); font-weight:  bold;">
+											<div class="event-frame event-body text-center" style="background-color: rgb(249, 255, 244); font-weight: bold; font-size: 13px;">
 												<a href="{% url 'app:event_detail' e.pk %}" target="_parent" >{{ e.name }}</a>
 											</div>
 										{% else %}
-											<div class="event-frame event-body text-center" style="background-color: rgb(255, 244, 244); font-weight:  bold;">
+											<div class="event-frame event-body text-center" style="background-color: rgb(255, 244, 244); font-weight: bold; font-size: 13px;">
 												<a href="{% url 'app:event_detail' e.pk %}" target="_parent" >{{ e.name }}</a>
 											</div>
 										{% endif %}
