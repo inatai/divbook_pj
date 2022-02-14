@@ -23,7 +23,7 @@
 
             <div class="form-label-group form_wrap form_wrap-2">
                 <h6>4桁以下の暗証番号 : </h6>
-                <input type="text" id="pas" name="pw" maxlength="4" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="暗証番号">
+                <input type="text" id="pas" name="pw" maxlength="4" pattern="\d*" placeholder="暗証番号" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" >
                 <p>※予約キャンセル時に必要になります。<br>必須ではありませんが自分での予約キャンセルができなくなります。</p>
             </div>
             <br>

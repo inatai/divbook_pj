@@ -51,7 +51,7 @@
                             <td>
                                 <div class="form-label-group">
                                     <div class="form_wrap">
-                                        <input type="text" id="pas" name="pw" class='form-control' maxlength="4" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="4桁以下の暗証番号">
+                                        <input type="text" id="pas" name="pw" class='form-control' maxlength="4" pattern="\d*" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="4桁以下の暗証番号">
                                                 
                                     </div>
                                 </div>

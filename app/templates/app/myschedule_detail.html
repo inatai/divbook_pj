@@ -22,7 +22,7 @@
                         <table>
                             <tr>
                                 <td><h6>暗証番号:</h6></td>
-                                <td><input type="text" id="pas" name="pw" maxlength="4" class='form-control' oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="暗証番号(半角数字4桁)"></td>
+                                <td><input type="text" id="pas" name="pw" maxlength="4" class='form-control' pattern="\d*" oninput="value = value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,'');" placeholder="暗証番号(半角数字4桁)"></td>
                             </tr>
                         </table>                  
                         
