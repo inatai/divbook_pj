@@ -54,14 +54,20 @@
             <div class="col-sm-6">
                 <div class="card img-thumbnail itemlist mb-3">
                     <div class="card-body text-center px-2 py-2">       
+                        <div style="text-align: left;">
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'app:item_edit' item.pk %}" >編集</a>       
+                            {% endif %}      
+                        </div>
                                   
-                            <h5 class="font-weight-bold">{{ item.name }} 受付</h5>
-                            <br>
-                            <div class="text-left">
-                                <h6 style="text-align: left">備考:</h6>
-                                <p class="indent-1">{{ item.description|linebreaksbr }}</p> 
-                            </div>
-                            <a href="{% url 'app:calendar' item.pk %}" class="btn btn-outline-primary">予約へ</a>                       
+                        <h5 class="font-weight-bold">{{ item.name }} 受付</h5>
+                        <br>
+                        <div class="text-left">
+                            <h6 style="text-align: left">備考:</h6>
+                            <p class="indent-1">{{ item.description|linebreaksbr }}</p> 
+                        </div>
+                        <a href="{% url 'app:calendar' item.pk %}" class="btn btn-outline-primary">予約へ</a>
+                                      
                     </div>     
                 </div>    
             </div>

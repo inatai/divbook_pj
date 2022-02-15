@@ -2,6 +2,7 @@ from calendar import weekday
 from distutils.log import error
 from email.mime import base
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from . import forms
@@ -36,6 +37,21 @@ class ItemView(View):
         return render(request, 'app/item.html',{
             'item_data': item_data
         })
+
+class Item_editView(generic.UpdateView):
+    template_name = 'app/item_edit.html'
+    model = Item
+    fields = ['name', 'description']
+ 
+    def get_success_url(self):
+        return reverse('app:item')
+
+    def get_form(self):
+        form = super(Item_editView, self).get_form()
+        form.fields['name'].label = '表示名'
+        form.fields['description'].label = '備考　'
+        return form
+
     
 
 #受付の追加
