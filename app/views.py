@@ -573,11 +573,11 @@ def event_add(request):
                 event = Event()
                 event.name = request.POST['name']
                 event.description = request.POST['description']
-                event.book_start = int(request.POST['book_start'])-1
+                event.book_start = int(request.POST['book_start'])
                 event.book_end = int(request.POST['book_end'])-1
 
                 #1日だけ追加
-                if event.book_start < event.book_end:
+                if event.book_start <= event.book_end:
                     messages.error(request, '予約期限の入力が正しくありません。')
                     return redirect('app:event_add')
 
@@ -605,16 +605,16 @@ def some_event_add(request):
                 event = Event()
                 event.name = request.POST['name']
                 event.description = request.POST['description']
-                event.book_start = int(request.POST['book_start'])-1
+                event.book_start = int(request.POST['book_start'])
                 event.book_end = int(request.POST['book_end'])-1
 
                 get_name = request.POST['name']
                 get_description = request.POST['description']
-                get_book_start = int(request.POST['book_start'])-1
+                get_book_start = int(request.POST['book_start'])
                 get_book_end = int(request.POST['book_end'])-1
 
                 #まとめて追加
-                if event.book_start < event.book_end:
+                if event.book_start <= event.book_end:
                     messages.error(request, '予約期限の入力が正しくありません。')
                     return redirect('app:some_event_add')
 
@@ -671,7 +671,7 @@ class EventdetailView(generic.TemplateView):
 
         context['event'] = event
         context['today'] = today
-        context['view_book_start'] = book_start - datetime.timedelta(days=1)
+        context['view_book_start'] = book_start
         context['view_book_end'] = book_end - datetime.timedelta(days=1)
         context['book_start'] = book_start
         context['book_end'] = book_end
