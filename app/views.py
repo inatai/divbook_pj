@@ -356,8 +356,6 @@ def myschedule_del(request, pk):
         return redirect('app:calendar', pk=item.pk)
     else:
         adt = dt + timedelta(hours=9)
-        print(adt)
-        print("じかん")
         return redirect('app:myschedule_detail', pk=item.pk, year=adt.year, month=adt.month, day=adt.day, hour=adt.hour)
 
 
@@ -737,7 +735,7 @@ def my_participant_del(request, pk):
     pw = request.POST.get('pw')
     if(participant.pw == pw):
         participant.delete()
-        messages.error(request, '予約をキャンセルしました。')
+        messages.success(request, '予約をキャンセルしました。')
     else:
         messages.error(request, 'パスワードが一致しません。')
         

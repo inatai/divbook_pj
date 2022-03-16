@@ -54,7 +54,8 @@ main {
     
     .evecal{
         width: 100%;
-        height: 400px;
+        height: 300px;
+        margin-top: 3px;
     }
     .evecalray th{
         width: 30%;
@@ -126,7 +127,8 @@ main {
     }
     .evecal{
         width: 540px;
-        height: 400px;
+        height: 300px;
+        margin-top: 3px;
     }
     
     .evecalray th{
@@ -313,4 +315,10 @@ ul a {
 p.indent-1-e {
 	padding-left:1em;
 	text-indent:-1em;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }

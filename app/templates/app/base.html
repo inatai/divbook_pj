@@ -38,7 +38,7 @@
                 
                     <!--入れ違いで予約が入った場合に実行-->
                     {% for message in messages %}
-                    <div style="font-size: 14px;" class="alert alert-danger">
+                    <div style="font-size: 14px; margin: 0.5em;" class="alert alert-{{ message.tags }}">
                         <p> {{ message }}</p>
                     </div>    
                     {% endfor %}
