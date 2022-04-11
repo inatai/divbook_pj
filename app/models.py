@@ -19,6 +19,7 @@ class Event(models.Model):
     date = models.DateField('開催日')
     book_start = models.IntegerField('予約開始日数')
     book_end = models.IntegerField('予約締め切り日数')
+    limit = models.IntegerField('制限人数', blank=True)
 
     def __str__(self):
         return self.name

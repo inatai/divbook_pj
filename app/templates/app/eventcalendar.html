@@ -64,9 +64,9 @@
 								{% if event %}
 									{% for e in event%}
 										<ul>
-											{% book_start e.book_start e.date as flags %}
-											{% book_end e.book_end e.date as flage %}
-											{% if flags and flage %}
+											{% book_start e.book_start e.date as is_start %}
+											{% book_end e.book_end e.date as not_end %}
+											{% if is_start and not_end %}
 												<div class="event-frame event-body text-center" style="background-color: rgb(237, 255, 223); font-weight: bold; font-size: 12px;">
 													<a href="{% url 'app:event_detail' e.pk %}" target="_parent" >{{ e.name }}</a>
 												</div>

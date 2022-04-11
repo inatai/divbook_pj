@@ -508,62 +508,15 @@ class EventcalendarView(XFrameOptionsExemptMixin, generic.TemplateView):
         context['weeks'] = weeks
         context['start_day'] = start_day
         context['end_day'] = end_day
-        context['start_day'] = start_day
-        context['end_day'] = end_day
         context['next'] = next_month
         context['before'] = before_month
         context['today'] = today
 
         return context
 
-# class EventcalendarView(XFrameOptionsExemptMixin, generic.TemplateView):
-#     template_name = 'app/eventcalendar.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         today = datetime.date.today()
-#         # event = Event.objects.all()
- 
-#         # どの日を基準にカレンダーを表示するかの処理。
-#         # 年月日の指定があればそれを、なければ今日からの表示。
-#         year = self.kwargs.get('year')
-#         month = self.kwargs.get('month')
-#         day = self.kwargs.get('day')
-#         if year and month and day:
-#             base_date = datetime.date(year=year, month=month, day=day)
-#         else:
-#             base_date = today
-
-#         # カレンダーは1ヶ月分表示するので、基準日からの日付を作成しておく
-#         days = [base_date + datetime.timedelta(days=day) for day in range(7)]
-#         start_day = days[0]
-#         end_day = days[-1]
-
-#         # 0時から23時まで1時間刻み、1週間分の、値がTrueなカレンダーを作る
-#         calendar = {}
-#         for day in days:
-#             calendar[day] = []
-
-#         # カレンダー表示する最初と最後の日時の間にある予約を取得する
-#         for event in Event.objects.exclude(Q(date__gt=end_day) | Q(date__lt=start_day)):
-#             local_dt = event.date
-#             booking_date = local_dt
-
-#             if booking_date in calendar:
-#                 calendar[booking_date].append(event)
-
-#         context['calendar'] = calendar
-#         context['days'] = days
-#         context['start_day'] = start_day
-#         context['end_day'] = end_day
-#         context['before'] = days[0] - datetime.timedelta(days=7)
-#         context['next'] = days[-1] + datetime.timedelta(days=1)
-#         context['today'] = today
-#         return context
-
 
 #受付の追加
-def event_add(request):
+def event_add(request): 
     if LoginRequiredMixin:
         form = EventForm(request.POST)
         if request.method == "POST":
@@ -573,6 +526,10 @@ def event_add(request):
                 event.description = request.POST['description']
                 event.book_start = int(request.POST['book_start'])
                 event.book_end = int(request.POST['book_end'])-1
+                if request.POST['limit']:
+                    event.limit = int(request.POST['limit'])
+                else:
+                    event.limit = 100000
 
                 #1日だけ追加
                 if event.book_start <= event.book_end:
@@ -600,19 +557,17 @@ def some_event_add(request):
         form = EventForm(request.POST)
         if request.method == "POST":
             if form.is_valid():
-                event = Event()
-                event.name = request.POST['name']
-                event.description = request.POST['description']
-                event.book_start = int(request.POST['book_start'])
-                event.book_end = int(request.POST['book_end'])-1
-
                 get_name = request.POST['name']
                 get_description = request.POST['description']
                 get_book_start = int(request.POST['book_start'])
                 get_book_end = int(request.POST['book_end'])-1
+                if request.POST['limit']:
+                    get_limit = int(request.POST['limit'])
+                else:
+                    get_limit = 100000
 
                 #まとめて追加
-                if event.book_start <= event.book_end:
+                if get_book_start <= get_book_end:
                     messages.error(request, '予約期限の入力が正しくありません。')
                     return redirect('app:some_event_add')
 
@@ -632,9 +587,8 @@ def some_event_add(request):
                         for i in range((end - start).days + 1):
                             date = (start + timedelta(i))
                             if(str(date.weekday()) in get_weeklist):
-                                event.date = date
                                 Event.objects.create(name=get_name, date=date, book_start=get_book_start, 
-                                book_end=get_book_end, description=get_description)
+                                book_end=get_book_end, description=get_description, limit = get_limit)
                         return redirect('app:item')
                 else:
                     messages.error(request, '入力が正しくありません')
@@ -666,6 +620,11 @@ class EventdetailView(generic.TemplateView):
         date = event.date
         book_start = date - datetime.timedelta(days=event.book_start)
         book_end = date - datetime.timedelta(days=event.book_end)
+        num_participant = Participant.objects.filter(event=event).all().count()
+        if event.limit == 100000:
+            limit = "無制限"
+        else:
+            limit = f'{event.limit} 人'
 
         context['event'] = event
         context['today'] = today
@@ -673,6 +632,8 @@ class EventdetailView(generic.TemplateView):
         context['view_book_end'] = book_end - datetime.timedelta(days=1)
         context['book_start'] = book_start
         context['book_end'] = book_end
+        context['limit'] = limit
+        context['num_participant'] = num_participant
 
         #予約者一覧
         pa_list = {}
@@ -689,11 +650,16 @@ def participant_add(request, pk):
     event = get_object_or_404(Event, pk=pk)
     name = request.POST.get('name')
     pw = request.POST.get('pw')
-    if Participant.objects.filter(event=event, name=name):
-        messages.error(request, '同名の予約があります。漢字やカタカタ等を使用して違う名前で予約してください。')
+
+    num_participant = Participant.objects.filter(event=event).all().count()
+    if event.limit <= num_participant:
+        messages.error(request, '予約が制限人数に達しているため、予約できません。')
     else:
-        Participant.objects.create(event=event, name=name, pw=pw)
-        messages.success(request, '予約が完了しました')
+        if Participant.objects.filter(event=event, name=name):
+            messages.error(request, '同名の予約があります。漢字やカタカタ等を使用して違う名前で予約してください。')
+        else:
+            Participant.objects.create(event=event, name=name, pw=pw)
+            messages.success(request, '予約が完了しました。')
 
     return redirect('app:event_detail', pk=pk)
 

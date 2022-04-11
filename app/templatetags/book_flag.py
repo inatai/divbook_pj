@@ -1,14 +1,6 @@
 from django import template
-
-from django.utils import timezone
-from datetime import datetime, date, timedelta, time
-
-
+from datetime import datetime
 import datetime
-
-
-
-
 
 
 register = template.Library() # Djangoのテンプレートタグライブラリ

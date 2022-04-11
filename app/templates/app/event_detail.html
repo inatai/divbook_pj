@@ -22,13 +22,20 @@
                         <td class="data">{{ view_book_start }}　00:00</td>
                     </tr>
                     <tr>
-                        <th class="header">予約締め切り日</th>
+                        <th class="header">予約締切日</th>
                         <td class="data">{{ view_book_end }}　23:59</td>
+                    </tr>
+                    <tr>
+                        <th class="header">制限人数</th>
+                        <td class="data">{{ limit }}</td>
                     </tr>
                 </tbody>
             </table>
-            
-            {% if book_start <= today and today < book_end %}
+
+
+            {% if num_participant >= event.limit %}
+                <h4>予約人数が上限に達しました</h4>
+            {% elif book_start <= today and today < book_end %}
                 <form method="POST" action = "{% url 'app:participant_add' event.pk %}" class="form-auth" enctype="multipart/form-data" style="display: inline">
                     {% csrf_token %}
                     <table style= "border-collapse: separate; border-spacing: 8px 0px;">
@@ -68,9 +75,9 @@
                     
                 </form>
             {% elif book_start > today %}
-                <p>まだ予約できません</p>
+                <h4>まだ予約できません</h4>
             {% else %}
-                <p>予約を締め切りました</p>
+                <h4>予約を締め切りました</h4>
             {% endif %}
             
             <details>

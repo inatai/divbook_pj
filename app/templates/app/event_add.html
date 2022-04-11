@@ -30,13 +30,19 @@
             <br>
             <div class="form-label-group">
                 {% render_field form.book_start class='form-control' min="0" placeholder='何日前に予約を許可するか' %}
-                <p style="text-align: right;">日前に許可</p>
+                <p style="text-align: right;">日前に予約を許可</p>
             </div>   
             <div class="form-label-group">
                 {% render_field form.book_end class='form-control' min="0" placeholder='何日前に締め切るか' %}
-                <p style="text-align: right;">日前に締切</p>
+                <p style="text-align: right;">日前に予約を締切</p>
             </div>
 
+            <br><br>
+
+            <li type="disc" class="font-weight-bold" style="font-size: 13px; color: rgb(0, 102, 143);">予約制限人数</li><br>
+            <div class="form-label-group">
+                {% render_field form.limit class='form-control' placeholder='予約制限人数' %}
+            </div>
             <br><br>
 
 
