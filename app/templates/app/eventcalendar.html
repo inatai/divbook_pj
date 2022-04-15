@@ -18,11 +18,11 @@
 	<body style="background-color: rgb(250, 250, 250); font-size: 8px; height: 100%;">
 
 		<div style="display: flex; flex-wrap: wrap;">
-			<div style="flex: 0 0 10%; max-width: 10%;"><a href="{% url 'app:eventcalendar' before.year before.month %}" class="btn btn-warning" style="font-size: 12px; width: 100%; height: 90%;" >先月</a></div>
+			<a href="{% url 'app:eventcalendar' before.year before.month %}" class="btn btn-warning eve_cal_bt" >先月</a>
 			<div style="text-align: center; flex: 0 0 80%; max-width: 80%;">
 				<h4>{{ month }}月</h4>
 			</div>
-			<div style="flex: 0 0 10%; max-width: 10%;"><a href="{% url 'app:eventcalendar' next.year next.month %}" class="btn btn-warning" style="font-size: 12px; width: 100%; height: 90%;">翌月</a></div>
+			<a href="{% url 'app:eventcalendar' next.year next.month %}" class="btn btn-warning eve_cal_bt" >翌月</a>
 		</div>
 
 		<div class=" table-responsive"  style="scrollbar-width: none;">
