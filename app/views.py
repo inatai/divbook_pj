@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from calendar import weekday
 from distutils.log import error
 from email.mime import base
@@ -650,9 +651,12 @@ def participant_add(request, pk):
     event = get_object_or_404(Event, pk=pk)
     name = request.POST.get('name')
     pw = request.POST.get('pw')
+    null = ''
 
     num_participant = Participant.objects.filter(event=event).all().count()
-    if event.limit <= num_participant:
+    if name == null:
+        messages.error(request, '名前は必須です。')
+    elif event.limit <= num_participant:
         messages.error(request, '予約が制限人数に達しているため、予約できません。')
     else:
         if Participant.objects.filter(event=event, name=name):
