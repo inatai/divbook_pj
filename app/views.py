@@ -651,10 +651,10 @@ def participant_add(request, pk):
     event = get_object_or_404(Event, pk=pk)
     name = request.POST.get('name')
     pw = request.POST.get('pw')
-    null = ''
+    Null = ''
 
     num_participant = Participant.objects.filter(event=event).all().count()
-    if name == null:
+    if name == Null:
         messages.error(request, '名前は必須です。')
     elif event.limit <= num_participant:
         messages.error(request, '予約が制限人数に達しているため、予約できません。')
