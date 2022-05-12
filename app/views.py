@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from calendar import weekday
 from distutils.log import error
 from email.mime import base
