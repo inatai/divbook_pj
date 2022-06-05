@@ -40,7 +40,7 @@
             {% if num_participant >= event.limit %}
                 <h4>予約人数が上限に達しました</h4>
             {% elif book_start <= today and today < book_end %}
-                <form method="POST" action = "{% url 'app:participant_add' event.pk %}" class="form-auth" enctype="multipart/form-data" style="display: inline">
+                <form method="POST" action = "{% url 'app:participant_add' event.pk %}" class="form-auth" enctype="multipart/form-data" style="display: inline" onSubmit="return disp_book()">
                     {% csrf_token %}
                     <table style= "border-collapse: separate; border-spacing: 8px 0px;">
                         <tr>
