@@ -4,7 +4,6 @@ from email.mime import base
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
-from django.views.generic.edit import FormView
 from . import forms
 from .models import Item, Schedule, Event, Participant
 from django.utils import timezone
@@ -14,8 +13,7 @@ from django.views import generic
 from django.db.models import Q
 from django.contrib import messages
 import datetime
-from django.contrib.auth.mixins import  LoginRequiredMixin, UserPassesTestMixin
-
+from django.contrib.auth.mixins import  LoginRequiredMixin
 
 from .forms import ItemForm, EventForm
 
@@ -23,7 +21,6 @@ from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 
 from django.views.decorators.clickjacking import xframe_options_exempt
-
 from django import forms
 
 ScheduleFormSet = forms.modelformset_factory(Schedule, fields='__all__', can_delete=True, extra=0)
@@ -49,6 +46,26 @@ class Item_editView(generic.UpdateView):
     def get_form(self):
         form = super(Item_editView, self).get_form()
         form.fields['name'].label = '表示名'
+        form.fields['description'].label = '備考　'
+        return form
+
+
+
+class Event_editView(generic.UpdateView):
+    template_name = 'app/event_edit.html'
+    model = Event
+    fields = ['name', 'description', 'date', 'book_start', 'book_end', 'limit']
+ 
+    def get_success_url(self):
+        return reverse('app:item')
+
+    def get_form(self):
+        form = super(Event_editView, self).get_form()
+        form.fields['name'].label = '表示名'
+        form.fields['date'].label = '開催日'
+        form.fields['book_start'].label = '予約開始日数'
+        form.fields['book_end'].label = '予約締め切り日数'
+        form.fields['limit'].label = '制限人数'
         form.fields['description'].label = '備考　'
         return form
 

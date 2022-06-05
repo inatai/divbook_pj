@@ -8,7 +8,6 @@ from django.utils import timezone
 class Item(models.Model):
     name = models.CharField('表示名',max_length=100)
     description = models.TextField('備考等', default='特になし', blank=True)
-    deadline = models.IntegerField('期限(日)', default='30', blank=True)
     
     def __str__(self):
         return self.name

@@ -2,6 +2,9 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<div style="text-align: left;">
+    <a href="{% url 'app:item' %}" class="btn btn-default"> << カレンダーへ戻る</a>
+</div>
 <br>
 <a href="{% url 'app:event_add' %}" class="btn btn-outline-primary">1つだけ追加したい場合</a>
 

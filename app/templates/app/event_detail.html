@@ -4,9 +4,13 @@
 
 <div style="text-align: left;">
     <a href="{% url 'app:item' %}" class="btn btn-default"> << カレンダーへ戻る</a>
-</div>
+</div> 
+
 <div class="card eveadd-auth my-5 mx-auto">
     <div class="eveadd-body">
+        {% if user.is_authenticated %}
+            <a href="{% url 'app:event_edit' event.pk %}">編集ページへ</a>
+        {% endif %} 
         <h5 class="card-title text-center font-weight-bold">{{ event.name }}</h5>
             <table class="event_table mb-4">
                 <tbody>
