@@ -9,9 +9,9 @@
 
         <form action = "{% url 'app:sendrest' item.pk %}" method="POST" class="form-auth">
             {% csrf_token %}
-            <input type="date" class="form-control" name= "start" >
+            <input type="date" class="form-control" name= "start" required>
             から
-            <input type="date" class="form-control" name= "end" >
+            <input type="date" class="form-control" name= "end" required>
             まで
 
             <div class="form-label-group">

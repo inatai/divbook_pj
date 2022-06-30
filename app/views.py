@@ -51,26 +51,6 @@ class Item_editView(generic.UpdateView):
 
 
 
-class Event_editView(generic.UpdateView):
-    template_name = 'app/event_edit.html'
-    model = Event
-    fields = ['name', 'description', 'date', 'book_start', 'book_end', 'limit']
- 
-    def get_success_url(self):
-        return reverse('app:item')
-
-    def get_form(self):
-        form = super(Event_editView, self).get_form()
-        form.fields['name'].label = '表示名'
-        form.fields['date'].label = '開催日'
-        form.fields['book_start'].label = '予約開始日数'
-        form.fields['book_end'].label = '予約締め切り日数'
-        form.fields['limit'].label = '制限人数'
-        form.fields['description'].label = '備考　'
-        return form
-
-    
-
 #受付の追加
 def item_add(request):
     if LoginRequiredMixin:
@@ -194,7 +174,7 @@ def bookkk(request, pk, year, month, day, hour):
     return redirect('app:calendar', pk=pk, year=today.year, month=today.month, day=today.day)
     
 
-#一括休暇設定ページ表示
+#一括予約停止設定ページ表示
 class Rest(LoginRequiredMixin, generic.CreateView):
     model = Schedule
     fields = ('name',)
@@ -205,19 +185,19 @@ class Rest(LoginRequiredMixin, generic.CreateView):
         context['item'] = get_object_or_404(Item, pk=self.kwargs['pk'])
         return context
 
-#一括休暇送信
+#一括予約停止送信
 @require_POST
 def sendrest(request, pk):
     get_start = request.POST.get('start')
     get_end = request.POST.get('end')
-    get_weeklist = request.POST.getlist('weeks') 
-    
+    get_weeklist = request.POST.getlist('weeks')
+
     startlist = get_start.split('-')
     endlist = get_end.split('-')
     start = datetime.datetime(year=int(startlist[0]), month=int(startlist[1]), day=int(startlist[2]), hour=0)
     end = datetime.datetime(year=int(endlist[0]), month=int(endlist[1]), day=int(endlist[2]), hour=0)
     today = datetime.date.today()
-    
+
     if(start>end):
         messages.error(request, '日付の入力が正しくありません。')
         
@@ -232,7 +212,7 @@ def sendrest(request, pk):
 
 #スタッフ用カレンダーページ表示
 class MyPageCalendar(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'app/my_page_calender.html'
+    template_name = 'app/my_page_calendar.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -616,6 +596,24 @@ def some_event_add(request):
     return render(request, 'app/some_event_add.html', {'form': form})
 
 
+class Event_editView(generic.UpdateView):
+    template_name = 'app/event_edit.html'
+    model = Event
+    fields = ['name', 'description', 'date', 'book_start', 'book_end', 'limit']
+ 
+    def get_success_url(self):
+        return reverse('app:item')
+
+    def get_form(self):
+        form = super(Event_editView, self).get_form()
+        form.fields['name'].label = '表示名'
+        form.fields['date'].label = '開催日'
+        form.fields['book_start'].label = '予約開始日数'
+        form.fields['book_end'].label = '予約締め切り日数'
+        form.fields['limit'].label = '制限人数'
+        form.fields['description'].label = '備考　'
+        return form
+
 #受付の消去
 @require_POST
 def event_del(request, pk):
@@ -624,8 +622,7 @@ def event_del(request, pk):
         event.delete()
 
     return redirect('app:item')
-
-
+    
 
 class EventdetailView(generic.TemplateView):
     template_name = 'app/event_detail.html'
@@ -667,12 +664,9 @@ def participant_add(request, pk):
     event = get_object_or_404(Event, pk=pk)
     name = request.POST.get('name')
     pw = request.POST.get('pw')
-    Null = ''
-
     num_participant = Participant.objects.filter(event=event).all().count()
-    if name == Null:
-        messages.error(request, '名前は必須です。')
-    elif event.limit <= num_participant:
+
+    if event.limit <= num_participant:
         messages.error(request, '予約が制限人数に達しているため、予約できません。')
     else:
         if Participant.objects.filter(event=event, name=name):
