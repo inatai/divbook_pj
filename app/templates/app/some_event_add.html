@@ -22,9 +22,9 @@
             
             <li type="disc" class="font-weight-bold" style="font-size: 13px; color: rgb(0, 102, 143);">追加する期間の指定</li><br>
             <div class="form-label-group">
-                <input type="date" class="form-control" name= "start" >
+                <input type="date" class="form-control" name= "start" required>
                 <p style="text-align: right;">から</p>
-                <input type="date" class="form-control" name= "end">
+                <input type="date" class="form-control" name= "end" required>
                 <p style="text-align: right;">までの範囲</p>
             </div>
             <fieldset>
@@ -68,7 +68,8 @@
             </div>
             <br><br>
 
-            <li type="disc" class="font-weight-bold" style="font-size: 13px; color: rgb(0, 102, 143);">予約制限人数</li><br>
+            <li type="disc" class="font-weight-bold" style="font-size: 13px; color: rgb(0, 102, 143);">予約制限人数</li>
+            <p>　※未入力の場合は無制限になります</p>
             <div class="form-label-group">
                 {% render_field form.limit class='form-control' placeholder='予約制限人数' %}
             </div>
