@@ -8,6 +8,7 @@ from . import forms
 from .models import Item, Schedule, Event, Participant
 from django.utils import timezone
 from datetime import datetime, date, timedelta, time
+from dateutil.relativedelta import relativedelta
 
 from django.views import generic
 from django.db.models import Q
@@ -485,19 +486,12 @@ class EventcalendarView(XFrameOptionsExemptMixin, generic.TemplateView):
             n = (event_date - start_day).days
             calendar[event_date][n].append(event)
             
-
-        if base_date.month == 12:
-            next_month = base_date.replace(year=base_date.year+1, month=1)
-        else:
-            next_month = base_date.replace(month=base_date.month + 1)
-        if base_date.month == 1:
-            before_month = base_date.replace(year=base_date.year-1, month=12)
-        else:
-            before_month = base_date.replace(month=base_date.month - 1)
+        next_month = base_date + relativedelta(months=1)
+        before_month = base_date - relativedelta(months=1)
 
         context['month'] = base_date.month
-        context['now_month_f'] = base_date.replace(year=base_date.year, month=base_date.month, day=1)
-        context['now_month_e'] = (base_date.replace(year=base_date.year, month=base_date.month+1, day=1)) - datetime.timedelta(days=1)
+        context['now_month_f'] = base_date.replace(day=1)
+        context['now_month_e'] = base_date  + relativedelta(months=1) - datetime.timedelta(days=1)
         
         context['calendar'] = calendar
         context['days'] = days
