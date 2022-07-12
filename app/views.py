@@ -714,4 +714,3 @@ def my_participant_del(request, pk):
         messages.error(request, 'パスワードが一致しません。')
         
     return redirect('app:event_detail', pk = event.pk)
-    
