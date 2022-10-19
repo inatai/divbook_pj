@@ -1,8 +1,9 @@
 # サークル向けの特化型予約サイト「DivBook」
 
-特定の用途に特化したweb予約アプリです。友人の所属しているサークルで2022年4月から稼働しています。
+特定の用途に特化したweb予約アプリです。~~友人の所属しているサークルで2022年4月から稼働しています。~~
 
-こちらからぜひご覧ください。([https://divbook.herokuapp.com/](https://divbook.herokuapp.com/))  
+~~こちらからぜひご覧ください。([https://divbook.herokuapp.com/](https://divbook.herokuapp.com/))~~  
+※Herokuの有料化により、サイトを閉鎖しました  
 　  
 
 # DivBookの概要
